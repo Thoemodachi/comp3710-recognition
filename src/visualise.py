@@ -1,9 +1,8 @@
 import os, argparse, torch
 import numpy as np
 import matplotlib.pyplot as plt
-from data_oasis import make_loaders
-from vae import VAE
-from umap import UMAP   # pip install umap-learn
+from src import make_loaders, VAE
+from umap import UMAP
 
 @torch.no_grad()
 def encode_mu(dl, model, device):

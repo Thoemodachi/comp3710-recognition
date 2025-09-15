@@ -2,8 +2,7 @@ import os, argparse, torch
 from torch.optim import Adam
 from torch.cuda.amp import autocast, GradScaler
 from pathlib import Path
-from data_oasis import make_loaders
-from vae import VAE, elbo_loss
+from src import make_loaders, VAE, elbo_loss
 
 def set_seed(seed=1337):
     import random, numpy as np
