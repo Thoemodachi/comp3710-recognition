@@ -1,0 +1,15 @@
+name: recognition
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pillow
+  - matplotlib
+  - scikit-learn
+  - pip:
+      - torch
+      - torchvision
+      - umap-learn
