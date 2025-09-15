@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=oasis-vae
+#SBATCH --job-name=oasis-train
 #SBATCH --partition=comp3710
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
@@ -10,18 +10,15 @@
 set -euo pipefail
 mkdir -p logs
 
-# Load modules (adjust if needed on Rangpur)
 module purge
 module load cuda
-module load miniconda3   # only if Rangpur requires this
+module load miniconda3   # only if required on Rangpur
 
-# Activate your env
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate recognition
 
-# Run training
 python -m src.train \
-  --data_root /home/groups/comp3710/keras_png_slices_data \
+  --data_root /home/groups/comp3710/OASIS \
   --out_dir runs/oasis-vae-128d32 \
   --size 128 \
   --z_dim 32 \

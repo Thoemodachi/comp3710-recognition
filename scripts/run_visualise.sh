@@ -18,6 +18,6 @@ source ~/miniconda3/etc/profile.d/conda.sh
 conda activate recognition
 
 python -m src.visualize \
-  --data_root /home/groups/comp3710/keras_png_slices_data \
+  --data_root /home/groups/comp3710/OASIS \
   --ckpt runs/oasis-vae-128d32/best.pt \
   --size 128
