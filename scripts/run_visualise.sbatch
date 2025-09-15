@@ -7,15 +7,16 @@
 #SBATCH --output=logs/%j.out
 #SBATCH --error=logs/%j.err
 
-# Load modules (adjust if your site has specific module versions)
+set -euo pipefail
+mkdir -p logs
+
 module purge
 module load cuda
+module load miniconda3   # only if required on Rangpur
 
-# Activate your conda environment
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate recognition
 
-# Run visualisation
 python -m src.visualize \
   --data_root /home/groups/comp3710/keras_png_slices_data \
   --ckpt runs/oasis-vae-128d32/best.pt \
