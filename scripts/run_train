@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --gres=gpu:a100
+#SBATCH --job-name=train_vae
+#SBATCH -o train_vae.out
+conda activate recognition
+
+python -m src.train \
+  --data_root /home/groups/comp3710/OASIS \
+  --out_dir runs/oasis-vae-128d32 \
+  --size 128 \
+  --z_dim 32 \
+  --epochs 40 \
+  --amp
