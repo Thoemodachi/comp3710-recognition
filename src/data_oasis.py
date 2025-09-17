@@ -22,7 +22,7 @@ class OasisSlices(Dataset):
         x = self.tf(x)                         # [1,H,W], float32 in [0,1]
         return x
 
-def make_loaders(base_dir, size=128, bs=64, workers=4):
+def make_loaders(base_dir, size=128, bs=64, workers=1):
     train = OasisSlices(os.path.join(base_dir, "keras_png_slices_train"), size)
     val   = OasisSlices(os.path.join(base_dir, "keras_png_slices_validate"), size)
     test  = OasisSlices(os.path.join(base_dir, "keras_png_slices_test"), size)
