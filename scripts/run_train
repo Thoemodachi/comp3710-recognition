@@ -3,7 +3,6 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --gres=gpu:a100
-#SBATCH --time=00:30:00
 #SBATCH --job-name=train_vae
 #SBATCH -o train_vae.out
 conda activate torch

@@ -3,12 +3,8 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --gres=gpu:a100
-#SBATCH --time=00:30:00
 #SBATCH --job-name=test_vae
 #SBATCH -o test_vae.out
 conda activate torch
 
-python -m src.visualise \
-  --data_root /home/groups/comp3710/OASIS \
-  --ckpt runs/oasis-vae-128d32/best.pt \
-  --size 128
+python -m src.visualise --data_root /home/groups/comp3710/OASIS --ckpt runs/oasis-vae-128d32/best.pt --size 128
