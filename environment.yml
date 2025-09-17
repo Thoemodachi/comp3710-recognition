@@ -2,23 +2,21 @@ name: comp3710
 channels:
   - pytorch
   - nvidia
-  - defaults
   - conda-forge
+  - defaults
 dependencies:
   - python=3.10
-  - numpy
+  - numpy=1.26.*          # PyTorch 2.2 stack expects NumPy 1.x
   - pillow
   - pytorch::pytorch=2.2.*
   - pytorch::torchvision=0.17.*
-  - pytorch-cuda=12.1
-  - pip
+  - pytorch-cuda=12.1     # pulls CUDA runtime from nvidia channel
   - matplotlib
   - umap-learn
   - scikit-learn
   - opencv
-  - gcc
-  - make
   - cmake
-  - gxx
-  - scikit-learn
-  - tensorflow
+  - make
+  # Use the platform compilers instead of bare 'gcc/gxx' to avoid ABI issues
+  - compilers              # meta-package on conda-forge: provides gxx/gcc toolchain
+  - pip
