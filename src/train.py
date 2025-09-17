@@ -71,7 +71,7 @@ if __name__ == "__main__":
     p.add_argument("--size", type=int, default=128)
     p.add_argument("--z_dim", type=int, default=32)
     p.add_argument("--batch_size", type=int, default=64)
-    p.add_argument("--workers", type=int, default=4)
+    p.add_argument("--workers", type=int, default=1)
     p.add_argument("--epochs", type=int, default=40)
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--beta_end", type=float, default=1.0)
