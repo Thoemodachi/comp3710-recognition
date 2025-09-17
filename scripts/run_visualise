@@ -3,7 +3,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --gres=gpu:a100
-#SBATCH --job-name=visualise_vae
+#SBATCH --job-name=test_vae
 #SBATCH -o test_vae.out
 conda activate comp3710
 
