@@ -1,3 +1,5 @@
+"""Training script for the OASIS Variational Autoencoder."""
+
 import os, argparse, torch
 from torch.optim import Adam
 from torch.cuda.amp import autocast, GradScaler
@@ -5,11 +7,15 @@ from pathlib import Path
 from src import make_loaders, VAE, elbo_loss
 
 def set_seed(seed=1337):
+    """Fix random seeds across libs to improve experiment reproducibility."""
+
     import random, numpy as np
     random.seed(seed); torch.manual_seed(seed); np.random.seed(seed)
     if torch.cuda.is_available(): torch.cuda.manual_seed_all(seed)
 
 def train(args):
+    """Train a VAE on the OASIS dataset using the provided CLI arguments."""
+
     set_seed()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     train_dl, val_dl, test_dl = make_loaders(args.data_root, size=args.size,
@@ -22,6 +28,7 @@ def train(args):
     best_val = 1e9
 
     def beta(epoch):
+        """Linearly increase KL weighting during the warm-up phase."""
         if epoch < args.warmup_epochs:
             return (epoch+1)/max(1,args.warmup_epochs) * args.beta_end
         return args.beta_end
@@ -40,7 +47,7 @@ def train(args):
             tr_loss += loss.item(); tr_rec += rec.item(); tr_kl += kl.item()
         trn = len(train_dl); tr_stats = (tr_loss/trn, tr_rec/trn, tr_kl/trn)
 
-        # validation
+        # validation loop mirrors the training loop without gradient tracking
         model.eval(); vl_loss=vl_rec=vl_kl=0.0
         with torch.no_grad():
             for x in val_dl:
@@ -54,7 +61,7 @@ def train(args):
               f"train loss={tr_stats[0]:.4f} rec={tr_stats[1]:.4f} kl={tr_stats[2]:.4f} | "
               f"val loss={vl_stats[0]:.4f} rec={vl_stats[1]:.4f} kl={vl_stats[2]:.4f}")
 
-        # checkpoint
+        # checkpoint latest model and retain best validation snapshot for reuse
         ckpt = {"epoch": epoch+1, "model": model.state_dict(), "args": vars(args)}
         torch.save(ckpt, outdir/"last.pt")
         if vl_stats[0] < best_val:

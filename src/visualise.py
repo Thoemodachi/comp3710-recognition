@@ -1,3 +1,5 @@
+"""Utility script for inspecting trained VAE latent space and reconstructions."""
+
 import os, argparse, torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,6 +8,8 @@ from umap import UMAP
 
 @torch.no_grad()
 def encode_mu(dl, model, device):
+    """Collect latent means μ for every batch in the provided dataloader."""
+
     mus = []
     for x in dl:
         x = x.to(device)
@@ -14,6 +18,8 @@ def encode_mu(dl, model, device):
     return torch.cat(mus, dim=0).numpy()
 
 def plot_umap(mus, out_png):
+    """Project latent means to 2D with UMAP and persist a scatter plot."""
+
     emb = UMAP(n_neighbors=15, min_dist=0.1, metric="euclidean").fit_transform(mus)
     plt.figure(figsize=(5,5))
     plt.scatter(emb[:,0], emb[:,1], s=2, alpha=0.6)
@@ -22,6 +28,8 @@ def plot_umap(mus, out_png):
 
 @torch.no_grad()
 def plot_manifold(model, out_png, grid=20, span=3.0, z_dim=2, size=128, device="cpu"):
+    """Render a latent traversal grid if the latent space is two-dimensional."""
+
     if z_dim != 2: 
         print("Manifold grid only for z_dim=2; skipping.")
         return

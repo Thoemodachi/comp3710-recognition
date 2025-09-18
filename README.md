@@ -1,46 +1,40 @@
-# comp3710-recognition
-## VAE on OASIS MRI Slices
+# OASIS VAE Workflow
 
-### Setup
+## 1. Environment
 ```bash
 conda env create -f environment.yml
 conda activate oasis-vae
-````
-
-### Data
-
 ```
-/home/groups/comp3710/keras_png_slices_data/
+
+## 2. Data Layout
+```
+<data_root>/
   keras_png_slices_train/
   keras_png_slices_validate/
   keras_png_slices_test/
 ```
 
-### Train
-
+## 3. Train
 ```bash
 python -m src.train \
-  --data_root /home/groups/comp3710/keras_png_slices_data \
+  --data_root <data_root> \
   --out_dir runs/oasis-vae \
   --size 128 --z_dim 32 --batch_size 64 --epochs 40 --lr 1e-3
 ```
 
-or with Slurm:
-
+or submit to Slurm:
 ```bash
-sbatch scripts/run_train.sbatch
+sbatch scripts/run_train
 ```
 
-### Visualise
-
+## 4. Visualise
 ```bash
-python -m src.visualize \
-  --data_root /home/groups/comp3710/keras_png_slices_data \
+python -m src.visualise \
+  --data_root <data_root> \
   --ckpt runs/oasis-vae/best.pt
 ```
 
-or with Slurm:
-
+or submit to Slurm:
 ```bash
-sbatch scripts/run_visualise.sbatch
+sbatch scripts/run_visualise
 ```
